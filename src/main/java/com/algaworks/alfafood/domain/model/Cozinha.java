@@ -34,6 +34,19 @@ public class Cozinha {
 		this.nome = nome;
 	}
 
+	public Cozinha() {
+	}
+
+	
+	@Override
+	public String toString() {
+		return "Cozinha [id=" + id + ", nome=" + nome + "]";
+	}
+
+	public Cozinha(String nome) {
+		this.nome = nome;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
