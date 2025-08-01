@@ -1,4 +1,4 @@
-package com.algaworks.alfafood;
+package com.algaworks.algafood;
 
 
 import java.util.List;
@@ -7,7 +7,8 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
-import com.algaworks.alfafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.repository.CozinhaRepository;
 
 public class ConsultaCozinhaMain {
 
@@ -18,14 +19,21 @@ public class ConsultaCozinhaMain {
 		
 		
 
-		CadastroCozinha cadastroCozinha = applicationContext.getBean(CadastroCozinha.class);
+		CozinhaRepository cadastroCozinha = applicationContext.getBean(CozinhaRepository.class);
 		
 		Cozinha cozinha1 = new Cozinha("Italiana");
-        cadastroCozinha.adicionar(cozinha1);		
+        cadastroCozinha.salvar(cozinha1);		
 		Cozinha cozinha2 = new Cozinha("Japonesa");
-        cadastroCozinha.adicionar(cozinha2);		
+        cadastroCozinha.salvar(cozinha2);		
 
-		
+        cozinha1 = new Cozinha("Brasileira");
+        cozinha1.setId(1L);
+        cadastroCozinha.salvar(cozinha1);
+        
+		Cozinha cozinhaRemove = new Cozinha();
+		cozinhaRemove.setId(3L);
+		cadastroCozinha.remover(cozinhaRemove);
+        
 		List<Cozinha> cozinhas = cadastroCozinha.listar();
 		
 		for (Cozinha cozinha: cozinhas) {
