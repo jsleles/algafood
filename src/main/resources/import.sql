@@ -18,6 +18,7 @@ insert into permissao (nome, descricao) values ('NOR','Usuário normal');
 insert into estado (nome) values ('SP');
 insert into estado (nome) values ('RJ');
 insert into estado (nome) values ('RS');
+insert into estado (nome) values ('MG');
 
 insert into cidade (estado_id, nome) values (1,'São Bernardo do Campo');
 insert into cidade (estado_id, nome) values (1,'São Paulo');
