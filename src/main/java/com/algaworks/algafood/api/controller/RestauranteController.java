@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,13 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 
 @RestController
 @RequestMapping("/restaurantes")
 public class RestauranteController {
 	
 	@Autowired
-	RestauranteRepository restauranteRepository;
+	private RestauranteRepository restauranteRepository;
+	
+	@Autowired
+	private CadastroRestauranteService cadastroRestaurante;
 	
 	@GetMapping
 	public ResponseEntity<List<Restaurante>>  lista(){
@@ -49,7 +52,7 @@ public class RestauranteController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Restaurante adicionar(@RequestBody Restaurante restaurante) {
-		 return restauranteRepository.salvar(restaurante);
+		 return cadastroRestaurante.salvar(restaurante);
 	}
 	
 	@PutMapping("/{restauranteId}")

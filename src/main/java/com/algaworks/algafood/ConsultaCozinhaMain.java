@@ -32,7 +32,7 @@ public class ConsultaCozinhaMain {
         
 		Cozinha cozinhaRemove = new Cozinha();
 		cozinhaRemove.setId(3L);
-		cadastroCozinha.remover(cozinhaRemove);
+		cadastroCozinha.remover(cozinhaRemove.getId());
         
 		List<Cozinha> cozinhas = cadastroCozinha.listar();
 		
