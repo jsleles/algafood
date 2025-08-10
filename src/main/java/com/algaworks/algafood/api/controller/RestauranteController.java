@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,10 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 
@@ -31,6 +33,9 @@ public class RestauranteController {
 	
 	@Autowired
 	private CadastroRestauranteService cadastroRestaurante;
+	
+	@Autowired
+	private CozinhaRepository cozinhaRepository;
 	
 	@GetMapping
 	public ResponseEntity<List<Restaurante>>  lista(){
@@ -50,19 +55,32 @@ public class RestauranteController {
 	}
 
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	public Restaurante adicionar(@RequestBody Restaurante restaurante) {
-		 return cadastroRestaurante.salvar(restaurante);
+//	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
+	    try {
+	    	restaurante =  cadastroRestaurante.salvar(restaurante);
+	    	return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
+	    } catch (EntidadeNaoEncontradaException e) {
+	    	return ResponseEntity.badRequest().body(e.getMessage());
+	    }
+		
 	}
 	
 	@PutMapping("/{restauranteId}")
-	public ResponseEntity<Restaurante> atualizar (@PathVariable Long restauranteId, 
+	public ResponseEntity<?> atualizar (@PathVariable Long restauranteId, 
 	                                              @RequestBody Restaurante restaurante		) {
+
+		Long cozinhaId = restaurante.getCozinha().getId();
+		Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
+		
+		if (cozinha == null) {
+			return ResponseEntity.badRequest().body(String.format("Não existe cozinha cadastrada com o código : %d", cozinhaId));
+		}
 		
 		Restaurante restauranteAtual = restauranteRepository.buscar(restauranteId);
 		if (restauranteAtual != null) {
 			BeanUtils.copyProperties(restaurante, restauranteAtual,"id");
-			restauranteAtual =  restauranteRepository.salvar(restauranteAtual);
+			restauranteAtual =  cadastroRestaurante.salvar(restauranteAtual);
 			return ResponseEntity.ok(restauranteAtual);
 		}
 		
@@ -74,10 +92,12 @@ public class RestauranteController {
 		Restaurante restaurante = restauranteRepository.buscar(restauranteId);
 		if (Objects.nonNull(restaurante)) {
 			try {
-				restauranteRepository.remover(restaurante);
+				cadastroRestaurante.excluir(restauranteId);
 				return ResponseEntity.noContent().build();
-			} catch (DataIntegrityViolationException d) {
+			} catch (EntidadeEmUsoException e) {
 				return ResponseEntity.status(HttpStatus.CONFLICT).build();
+			} catch (EntidadeNaoEncontradaException e) {
+				return ResponseEntity.notFound().build();
 			}
 		}
 		return ResponseEntity.notFound().build();
