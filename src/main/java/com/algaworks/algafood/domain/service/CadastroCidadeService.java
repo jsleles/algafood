@@ -1,8 +1,11 @@
 package com.algaworks.algafood.domain.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
@@ -31,6 +34,15 @@ public class CadastroCidadeService {
 		return cidadeSalva;
 	}
 	
+	public void excluir(Long cidadeId) {
+		try {
+			cidadeRepository.remover(cidadeId);
+		} catch (DataIntegrityViolationException e) {
+			throw new EntidadeEmUsoException(String.format("Não é possível excluir a cozinha de número %d, pois está em uso.", cidadeId));
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntidadeNaoEncontradaException(String.format("Não foi possível encontrar a cozinha de número %d.", cidadeId));
+		}
+	}
 	
 	
 }
