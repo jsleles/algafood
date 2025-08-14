@@ -3,7 +3,7 @@ package com.algaworks.algafood.infrastructure.repository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.repository.FormaPagamentoRepository;
@@ -11,7 +11,7 @@ import com.algaworks.algafood.domain.repository.FormaPagamentoRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
-@Component
+@Repository
 public class FormaPagamentoRepositoryImpl implements FormaPagamentoRepository{
 
 	@Autowired

@@ -4,16 +4,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
-@Component
+@Repository
 public class EstadoRepositoryImpl implements EstadoRepository{
 
 	@Autowired
