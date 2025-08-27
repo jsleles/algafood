@@ -1,8 +1,9 @@
 package com.algaworks.algafood.domain.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
@@ -23,26 +24,25 @@ public class CadastroCidadeService {
 	
 	public Cidade salva(Cidade cidade) {
 		
-		Estado estado = estadoRepository.buscar(cidade.getEstado().getId());
-		if (estado == null) {
+		Optional<Estado> estado = estadoRepository.findById(cidade.getEstado().getId());
+		if (estado.isEmpty()) {
 			throw new EntidadeNaoEncontradaException(String.format("Não encontrou estado cadastrado com o código %d", cidade.getEstado().getId()));
 		}
-		
-		cidade.setEstado(estado);
-		cidadeRepository.salvar(cidade);
-		Cidade cidadeSalva = cidadeRepository.buscar(cidade.getId());
-		return cidadeSalva;
+		cidade.setEstado(estado.get());
+		cidadeRepository.save(cidade);
+		Optional<Cidade> cidadeSalva = cidadeRepository.findById(cidade.getId());
+		return cidadeSalva.get();
 	}
 	
 	public void excluir(Long cidadeId) {
-		try {
-			cidadeRepository.remover(cidadeId);
-		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(String.format("Não é possível excluir a cozinha de número %d, pois está em uso.", cidadeId));
-		} catch (EmptyResultDataAccessException e) {
+		Optional<Cidade> cidade = cidadeRepository.findById(cidadeId);
+		if (cidade.isEmpty()) {
 			throw new EntidadeNaoEncontradaException(String.format("Não foi possível encontrar a cozinha de número %d.", cidadeId));
 		}
+		try {
+			cidadeRepository.deleteById(cidadeId);
+		} catch (DataIntegrityViolationException e) {
+			throw new EntidadeEmUsoException(String.format("Não é possível excluir a cozinha de número %d, pois está em uso.", cidadeId));
+		}
 	}
-	
-	
 }
