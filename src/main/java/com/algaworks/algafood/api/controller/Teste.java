@@ -38,5 +38,9 @@ public class Teste {
 		return restauranteRepository.findByNomeContainingAndCozinhaId(nome, cozinhaId);
 	}
 	
+	@GetMapping("/restaurante/por-nome-frete")
+	public List<Restaurante> porNomeFrete(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
+		return restauranteRepository.find(nome, taxaFreteInicial, taxaFreteFinal);
+	}
 	
 }
