@@ -12,6 +12,8 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.algaworks.algafood.infrainstructure.repository.spec.RestauranteComFreteGratisSpec;
+import com.algaworks.algafood.infrainstructure.repository.spec.RestauranteComNomeSemelhanteSpec;
 
 @RestController
 @RequestMapping("/teste")
@@ -28,19 +30,28 @@ public class Teste {
 		return cozinhaRepository.findByNome(nome);
 	}
 	
-	@GetMapping("/restaurante/por-frete")
+	@GetMapping("/restaurantes/por-frete")
 	public List<Restaurante> porFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
 		return restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal);
 	}
 
-	@GetMapping("/restaurante/por-nome")
+	@GetMapping("/restaurantes/por-nome")
 	public List<Restaurante> porNome(String nome, Long cozinhaId) {
 		return restauranteRepository.findByNomeContainingAndCozinhaId(nome, cozinhaId);
 	}
 	
-	@GetMapping("/restaurante/por-nome-frete")
+	@GetMapping("/restaurantes/por-nome-frete")
 	public List<Restaurante> porNomeFrete(String nome, BigDecimal taxaFreteInicial, BigDecimal taxaFreteFinal) {
 		return restauranteRepository.find(nome, taxaFreteInicial, taxaFreteFinal);
+	}
+	
+	@GetMapping("/restaurantes/com-frete-gratis")
+	public List<Restaurante> restauranteComFreteGratis(String nome) {
+		var comFreteGratis = new RestauranteComFreteGratisSpec();
+		var comNomeSemelhante = new RestauranteComNomeSemelhanteSpec(nome);
+		
+		return restauranteRepository.findAll(comFreteGratis.and(comNomeSemelhante));
+		
 	}
 	
 }
