@@ -1,10 +1,8 @@
 package com.algaworks.algafood.api.controller;
 
-import static com.algaworks.algafood.infrainstructure.repository.spec.RestauranteSpecs.comFreteGratis;
-import static com.algaworks.algafood.infrainstructure.repository.spec.RestauranteSpecs.comNomeSemelhante;
-
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +29,11 @@ public class Teste {
 		return cozinhaRepository.findByNome(nome);
 	}
 	
+	@GetMapping("/cozinhas/primeira")
+	public Optional<Cozinha> cozinhaPrimeiro() {
+		return cozinhaRepository.buscarPrimeiro();
+	}
+	
 	@GetMapping("/restaurantes/por-frete")
 	public List<Restaurante> porFrete(BigDecimal taxaInicial, BigDecimal taxaFinal) {
 		return restauranteRepository.findByTaxaFreteBetween(taxaInicial, taxaFinal);
@@ -48,10 +51,13 @@ public class Teste {
 	
 	@GetMapping("/restaurantes/com-frete-gratis")
 	public List<Restaurante> restauranteComFreteGratis(String nome) {
+		return restauranteRepository.findComFreteGratis(nome);
+		
+	}
 
-		
-		return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
-		
+	@GetMapping("/restaurantes/primeiro")
+	public Optional<Restaurante> restaurantePrimeiro() {
+		return restauranteRepository.buscarPrimeiro();
 	}
 	
 }
