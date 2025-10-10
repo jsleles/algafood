@@ -15,6 +15,8 @@ insert into permissao (nome, descricao) values ('ADM','Administrador');
 insert into permissao (nome, descricao) values ('CON','Somente consulta');
 insert into permissao (nome, descricao) values ('NOR','Usuário normal');
 
+insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (1,1),(1,2),(1,3),(2,3),(3,2),(3,3);
+
 insert into estado (nome) values ('SP');
 insert into estado (nome) values ('RJ');
 insert into estado (nome) values ('RS');
