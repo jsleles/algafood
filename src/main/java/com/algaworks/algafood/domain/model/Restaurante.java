@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,6 +38,11 @@ public class Restaurante {
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
  	
+ 	@JsonIgnore
+ 	@Embedded
+ 	private Endereco endereco;
+ 	
+ 	@JsonIgnore
  	@ManyToMany
  	@JoinTable (name="restaurante_forma_pagamento",
  	     joinColumns = @JoinColumn(name="restaurante_id"),
