@@ -16,9 +16,9 @@ insert into cidade (estado_id, nome) values (2,'Niteroi');
 insert into cidade (estado_id, nome) values (3,'Porto Alegre');
 insert into cidade (estado_id, nome) values (3,'Charqueada');
 
-insert into restaurante (nome, taxa_frete,cozinha_id, endereco_cidade_id, endereco_bairro, endereco_cep,endereco_complemento, endereco_logradouro, endereco_numero) values ('O melhor da Tailandia', 5,1, 1,'Centro', '09750-225','apto 193C','Rua Dr Marcel Preotesco','134');
-insert into restaurante (nome, taxa_frete,cozinha_id) values ('Comida Indiana', 8,2);
-insert into restaurante (nome, taxa_frete,cozinha_id) values ('Comida Indiana xpto', 3,2);
+insert into restaurante (nome, taxa_frete,cozinha_id, data_cadastro, data_atualizacao, endereco_cidade_id, endereco_bairro, endereco_cep,endereco_complemento, endereco_logradouro, endereco_numero) values ('O melhor da Tailandia', 5,1, utc_timestamp, utc_timestamp, 1,'Centro', '09750-225','apto 193C','Rua Dr Marcel Preotesco','134');
+insert into restaurante (nome, taxa_frete,cozinha_id, data_cadastro, data_atualizacao) values ('Comida Indiana', 8,2, utc_timestamp, utc_timestamp);
+insert into restaurante (nome, taxa_frete,cozinha_id, data_cadastro, data_atualizacao) values ('Comida Indiana xpto', 3,2, utc_timestamp, utc_timestamp);
 
 insert into forma_pagamento(descricao) values ('Dinheiro');
 insert into forma_pagamento(descricao) values ('Cartão de Débito');
