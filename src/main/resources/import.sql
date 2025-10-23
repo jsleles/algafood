@@ -20,6 +20,18 @@ insert into restaurante (nome, taxa_frete,cozinha_id, data_cadastro, data_atuali
 insert into restaurante (nome, taxa_frete,cozinha_id, data_cadastro, data_atualizacao) values ('Comida Indiana', 8,2, utc_timestamp, utc_timestamp);
 insert into restaurante (nome, taxa_frete,cozinha_id, data_cadastro, data_atualizacao) values ('Comida Indiana xpto', 3,2, utc_timestamp, utc_timestamp);
 
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (1,'Produto 1 do restaurante 1','Produto 1 do restaurante 1', 121.33, 1, 1 );
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (2,'Produto 2 do restaurante 1','Produto 2 do restaurante 1', 221.33, 1, 1 );
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (3,'Produto 3 do restaurante 1','Produto 3 do restaurante 1', 321.33, 1, 1 );
+	
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (4,'Produto 4 do restaurante 2','Produto 4 do restaurante 2', 121.22, 1, 2 );
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (5,'Produto 5 do restaurante 2','Produto 5 do restaurante 2', 221.22, 1, 2 );
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (6,'Produto 6 do restaurante 2','Produto 6 do restaurante 2', 321.22, 1, 2 );
+
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (7,'Produto 7 do restaurante 3','Produto 7 do restaurante 3', 131.22, 1, 3 );
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (8,'Produto 8 do restaurante 3','Produto 8 do restaurante 3', 231.22, 1, 3 );
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (9,'Produto 9 do restaurante 3','Produto 9 do restaurante 3', 331.22, 1, 3 );
+
 insert into forma_pagamento(descricao) values ('Dinheiro');
 insert into forma_pagamento(descricao) values ('Cartão de Débito');
 insert into forma_pagamento(descricao) values ('Cartão de Crédito');
