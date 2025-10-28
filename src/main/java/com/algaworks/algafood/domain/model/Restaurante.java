@@ -9,10 +9,12 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -40,7 +42,9 @@ public class Restaurante {
 	@Column(name="taxa_frete")
 	private BigDecimal taxaFrete;
 	
- 	@ManyToOne
+	//@JsonIgnore
+	@JsonIgnoreProperties("hibernateLazyInitializer")
+ 	@ManyToOne(fetch =FetchType.LAZY)
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Cozinha cozinha;
  	
@@ -55,6 +59,7 @@ public class Restaurante {
  	     inverseJoinColumns = @JoinColumn(name="forma_pagamento_id"))
  	private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
+ 	@JsonIgnore
  	@OneToMany(mappedBy = "restaurante")
  	private List<Produto> produtos = new ArrayList<>();
  	
